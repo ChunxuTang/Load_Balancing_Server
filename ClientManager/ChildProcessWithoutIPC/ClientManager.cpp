@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 	
     int num_client = atoi(argv[1]);
 	ClientManager cm(num_client, argv[2], argv[3]);
-	cm.start();
+    cm.start();
 	
 	struct timeval finish_tv;
 	gct.getTime(finish_tv);
