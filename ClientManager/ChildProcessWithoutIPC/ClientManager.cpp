@@ -116,7 +116,7 @@ void ClientManager::childWork()
 
 int main(int argc, char *argv[])
 {
-	if(argc < 4)
+    if(argc < 4)
     {
         std::cout << "Usage: " << argv[0] << " <#clients> <hostname> <port>\n";
         exit(EXIT_SUCCESS);
@@ -129,12 +129,12 @@ int main(int argc, char *argv[])
     int num_client = atoi(argv[1]);
     ClientManager cm(num_client, argv[2], argv[3]);
     cm.start();
-	
-	struct timeval finish_tv;
-	gct.getTime(finish_tv);
-
-	long time_use = 1000000 * (finish_tv.tv_sec - start_tv.tv_sec) + finish_tv.tv_usec - start_tv.tv_usec;
-	std::cout << " Time used :" << time_use << " microseconds\n";
+    
+    struct timeval finish_tv;
+    gct.getTime(finish_tv);
+    
+    long time_use = 1000000 * (finish_tv.tv_sec - start_tv.tv_sec) + finish_tv.tv_usec - start_tv.tv_usec;
+    std::cout << " Time used :" << time_use << " microseconds\n";
 
 	return 0;
 }
