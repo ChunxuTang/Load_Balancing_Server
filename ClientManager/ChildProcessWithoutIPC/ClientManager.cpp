@@ -122,12 +122,12 @@ int main(int argc, char *argv[])
         exit(EXIT_SUCCESS);
     }
 	
-	struct timeval start_tv;
-	GetCurrTime gct;
-	gct.getTime(start_tv);
+    struct timeval start_tv;
+    GetCurrTime gct;
+    gct.getTime(start_tv);
     
     int num_client = atoi(argv[1]);
-	ClientManager cm(num_client, argv[2], argv[3]);
+    ClientManager cm(num_client, argv[2], argv[3]);
     cm.start();
 	
 	struct timeval finish_tv;
