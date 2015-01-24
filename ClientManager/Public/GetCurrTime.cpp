@@ -16,11 +16,11 @@
 //-------------------------------------------------------------------
 void GetCurrTime::getTime(struct timeval& tv)
 {
-	if (gettimeofday(&tv, NULL) == -1) 
-	{
-		perror("gettimeofday");
-		exit(EXIT_FAILURE);
-	}
+    if (gettimeofday(&tv, NULL) == -1) 
+    {
+        perror("gettimeofday");
+        exit(EXIT_FAILURE);
+    }
 }
 
 //-------------------------------------------------------------------
@@ -28,15 +28,15 @@ void GetCurrTime::getTime(struct timeval& tv)
 //-------------------------------------------------------------------
 time_t GetCurrTime::getTime_s()
 {
-	struct timeval tv;
+    struct timeval tv;
 
-	if (gettimeofday(&tv, NULL) == -1) 
-	{
-		perror("gettimeofday");
-		exit(EXIT_FAILURE);
-	}
+    if (gettimeofday(&tv, NULL) == -1) 
+    {
+        perror("gettimeofday");
+        exit(EXIT_FAILURE);
+    }
 
-	return tv.tv_sec;
+    return tv.tv_sec;
 }
 
 //-------------------------------------------------------------------
@@ -44,15 +44,15 @@ time_t GetCurrTime::getTime_s()
 //-------------------------------------------------------------------
 suseconds_t GetCurrTime::getTime_us()
 {
-	struct timeval tv;
+    struct timeval tv;
 
-	if (gettimeofday(&tv, NULL) == -1) 
-	{
-		perror("gettimeofday");
-		exit(EXIT_FAILURE);
-	}
+    if (gettimeofday(&tv, NULL) == -1) 
+    {
+        perror("gettimeofday");
+        exit(EXIT_FAILURE);
+    }
 
-	return tv.tv_usec;
+    return tv.tv_usec;
 }
 
 //-------------------------------------------------------------------
@@ -60,15 +60,15 @@ suseconds_t GetCurrTime::getTime_us()
 //-------------------------------------------------------------------
 long GetCurrTime::getTime_ns()
 {
-	struct timespec ts;
+    struct timespec ts;
 
-	if (clock_gettime(CLOCK_REALTIME, &ts) == -1) 
-	{
-		perror("clock_gettime");
-		exit(EXIT_FAILURE);
-	}
-		
-	return ts.tv_nsec;
+    if (clock_gettime(CLOCK_REALTIME, &ts) == -1) 
+    {
+        perror("clock_gettime");
+        exit(EXIT_FAILURE);
+    }
+        
+    return ts.tv_nsec;
 }
 
 
@@ -79,12 +79,12 @@ long GetCurrTime::getTime_ns()
 
 int main(int argc, char *argv[])
 {
-	GetCurrTime gct;
-	std::cout << "Now time is " << gct.getTime_s() << std::endl;
-	std::cout << "Now time is " << gct.getTime_us() << std::endl;
-	std::cout << "Now time is " << gct.getTime_ns() << std::endl;
+    GetCurrTime gct;
+    std::cout << "Now time is " << gct.getTime_s() << std::endl;
+    std::cout << "Now time is " << gct.getTime_us() << std::endl;
+    std::cout << "Now time is " << gct.getTime_ns() << std::endl;
 
-	return 0;
+    return 0;
 }
 
 #endif

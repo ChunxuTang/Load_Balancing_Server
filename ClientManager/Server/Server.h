@@ -41,9 +41,9 @@ public:
     void start();
 private:
     static const char *PORT_NUM;
-	static const char *BIND_ADDRESS;
+    static const char *BIND_ADDRESS;
     static const int BUF_SIZE = 1024;
-	static const int BACKLOG = 100;
+    static const int BACKLOG = 100;
 };
 
 

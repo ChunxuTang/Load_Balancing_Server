@@ -1,4 +1,3 @@
-
 /////////////////////////////////////////////////////////////////////
 //  Server.cpp - implementations of a simple server
 //  ver 1.0                                                        
@@ -19,11 +18,11 @@ const char* Server::BIND_ADDRESS = "127.0.0.1";
 //-------------------------------------------------------------------
 void Server::start()
 {
-	struct sockaddr_storage claddr;
-	socklen_t addrlen = sizeof(claddr);
+    struct sockaddr_storage claddr;
+    socklen_t addrlen = sizeof(claddr);
     SocketCreator sc;
 
-	int lfd = sc.inetListen(BIND_ADDRESS, PORT_NUM, BACKLOG, &addrlen);
+    int lfd = sc.inetListen(BIND_ADDRESS, PORT_NUM, BACKLOG, &addrlen);
     if (lfd == -1) 
     {
         fprintf(stderr, "socket inetListen error\n");
@@ -43,7 +42,7 @@ void Server::start()
         memset(buf, 0, BUF_SIZE);
 
         ssize_t num_read = read(cfd, buf, BUF_SIZE);
-		if (num_read == -1) 
+        if (num_read == -1) 
         {
             perror("read");
             close(cfd);
@@ -59,23 +58,23 @@ void Server::start()
             continue;
         }
 
-		if (close(cfd) == -1) 
+        if (close(cfd) == -1) 
         {
-			perror("close");
-			exit(EXIT_FAILURE);
-		}
+            perror("close");
+            exit(EXIT_FAILURE);
+        }
     }
 
-	if (shutdown(lfd, SHUT_RDWR) == -1)
+    if (shutdown(lfd, SHUT_RDWR) == -1)
     {
-		perror("sutdown");
-		exit(EXIT_FAILURE);
-	}
-	if (close(lfd) == -1) 
+        perror("sutdown");
+        exit(EXIT_FAILURE);
+    }
+    if (close(lfd) == -1) 
     {
-		perror("close");
-		exit(EXIT_FAILURE);
-	}
+        perror("close");
+        exit(EXIT_FAILURE);
+    }
 }
 
 
@@ -91,3 +90,4 @@ int main(int argc, char* argv[])
 }
 
 #endif
+
