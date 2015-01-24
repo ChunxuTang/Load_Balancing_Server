@@ -1,10 +1,10 @@
 
 DIRS = ./lib \
-	   ./src/Server \
-	   ./src/Client
+       ./src/Server \
+       ./src/Client
 
 all: 
-	@ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} all) ; done
-	
+    @ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} all) ; done
+    
 clean: 
-	@ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} clean) ; done
+    @ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} clean) ; done

@@ -18,9 +18,9 @@
 ErrorHandler::ErrorHandler(const char *msg)
 :msg_(msg)
 {
-	file_name_ = NULL;
-	func_name_ = NULL;
-	line_num_ = 0;
+    file_name_ = NULL;
+    func_name_ = NULL;
+    line_num_ = 0;
 }
 
 //-------------------------------------------------------------------
@@ -30,9 +30,9 @@ ErrorHandler::ErrorHandler(const char *msg)
 // the most often used in 2014 Summer Project.
 //-------------------------------------------------------------------
 ErrorHandler::ErrorHandler(const char *msg, 
-						   const char *file_name, 
-						   const char *func_name, 
-						   int line_num)
+                           const char *file_name, 
+                           const char *func_name, 
+                           int line_num)
 :msg_(msg), 
 file_name_(file_name), 
 func_name_(func_name), 
@@ -44,10 +44,10 @@ line_num_(line_num)
 //-------------------------------------------------------------------
 ErrorHandler::~ErrorHandler()
 {
-	msg_ = NULL;
-	file_name_ = NULL;
-	func_name_ = NULL;
-	line_num_ = 0;
+    msg_ = NULL;
+    file_name_ = NULL;
+    func_name_ = NULL;
+    line_num_ = 0;
 }
 
 //-------------------------------------------------------------------
@@ -55,7 +55,7 @@ ErrorHandler::~ErrorHandler()
 //-------------------------------------------------------------------
 void ErrorHandler::errMsg()
 {
-	showMsg();
+    showMsg();
 }
 
 //-------------------------------------------------------------------
@@ -63,8 +63,8 @@ void ErrorHandler::errMsg()
 //-------------------------------------------------------------------
 void ErrorHandler::errExit()
 {
-	showMsg();
-	exit(EXIT_FAILURE);
+    showMsg();
+    exit(EXIT_FAILURE);
 }
 
 //-------------------------------------------------------------------
@@ -72,22 +72,22 @@ void ErrorHandler::errExit()
 //-------------------------------------------------------------------
 void ErrorHandler::showMsg()
 {
-	int saved_errno;
-	saved_errno = errno;
+    int saved_errno;
+    saved_errno = errno;
 
-	std::cout << msg_ << ": ";
-	std::cout << strerror(errno) << std::endl;
+    std::cout << msg_ << ": ";
+    std::cout << strerror(errno) << std::endl;
 
-	if (file_name_ != NULL)
-		std::cout << basename((char*)file_name_) << " ";
-	if (func_name_ != NULL)
-		std::cout << func_name_ << " ";
-	if (line_num_ != 0)
-		std::cout << line_num_;
+    if (file_name_ != NULL)
+        std::cout << basename((char*)file_name_) << " ";
+    if (func_name_ != NULL)
+        std::cout << func_name_ << " ";
+    if (line_num_ != 0)
+        std::cout << line_num_;
 
-	std::cout << "\n";
+    std::cout << "\n";
 
-	errno = saved_errno;
+    errno = saved_errno;
 }
 
 //-------------------------------------------------------------------
@@ -97,14 +97,14 @@ void ErrorHandler::showMsg()
 
 int main(int argc, char *argv[])
 {
-	errno = 3;
-	ErrorHandler eh("test", __FILE__, __FUNCTION__, __LINE__);
-	eh.errMsg();
+    errno = 3;
+    ErrorHandler eh("test", __FILE__, __FUNCTION__, __LINE__);
+    eh.errMsg();
 
-	ErrorHandler eh2("test2");
-	eh2.errExit();
+    ErrorHandler eh2("test2");
+    eh2.errExit();
 
-	return 0;
+    return 0;
 
 }
 #endif

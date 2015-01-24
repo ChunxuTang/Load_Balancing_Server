@@ -46,26 +46,26 @@ class SocketCreator
 {
 public:
     int inetConnect(const char *host, 
-				    const char *service, 
-					int type);
+                    const char *service, 
+                    int type);
     int inetListen(const char *host, 
-				   const char *service, 
-				   int backlog, 
-				   socklen_t *addrlen);
+                   const char *service, 
+                   int backlog, 
+                   socklen_t *addrlen);
     int inetBind(const char *host, 
-				 const char *service, 
-				 int type, 
-				 socklen_t *addrlen);
+                 const char *service, 
+                 int type, 
+                 socklen_t *addrlen);
     char *inetAddressStr(const struct sockaddr *addr, 
-						 socklen_t addrlen,
+                         socklen_t addrlen,
                          char *addr_str, 
-						 int addr_strlen);
+                         int addr_strlen);
 private:
     // Public interfaces: inetBind() and inetListen() 
     int inetPassiveSocket(const char *host, 
-						  const char *service, 
-						  int type, 
-						  socklen_t *addrlen,
+                          const char *service, 
+                          int type, 
+                          socklen_t *addrlen,
                           bool do_listen, int backlog);
 
     const static int IS_ADDR_STR_LEN = 4096;

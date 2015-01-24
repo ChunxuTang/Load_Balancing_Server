@@ -47,7 +47,7 @@
 class ClientManager
 {
 public:
-	ClientManager(int client_count, char *host, char *service);
+    ClientManager(int client_count, char *host, char *service);
     ~ClientManager();
     void start(); // Entry point of ClientManager
 private:
@@ -55,15 +55,15 @@ private:
     static void handleInterrupt(int sig);
     static void* createClient(void *arg);
 
-	int client_count_;         // the total of clients needed created
-	char host_[NI_MAXHOST];    // server's IP address 
-	char service_[NI_MAXSERV]; // server's port number
+    int client_count_;         // the total of clients needed created
+    char host_[NI_MAXHOST];    // server's IP address 
+    char service_[NI_MAXSERV]; // server's port number
 
-	static int client_exist_;         // the number of children hasn't finished
-	static std::list<int> sock_list_; // list to store client fds
-	static pthread_mutex_t mtx_;      // mutex
+    static int client_exist_;         // the number of children hasn't finished
+    static std::list<int> sock_list_; // list to store client fds
+    static pthread_mutex_t mtx_;      // mutex
 
-	static const int BUF_SIZE = 1024;
+    static const int BUF_SIZE = 1024;
 };
 
 #endif

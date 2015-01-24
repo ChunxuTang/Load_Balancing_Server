@@ -39,12 +39,12 @@
 class GetCurrTime
 {
 public:
-	GetCurrTime(){}
-	~GetCurrTime(){}
-	void getTime(struct timeval&);
-	time_t getTime_s();
-	suseconds_t getTime_us();
-	long getTime_ns();
+    GetCurrTime(){}
+    ~GetCurrTime(){}
+    void getTime(struct timeval&);
+    time_t getTime_s();
+    suseconds_t getTime_us();
+    long getTime_ns();
 };
 
 

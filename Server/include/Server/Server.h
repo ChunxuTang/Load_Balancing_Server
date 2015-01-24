@@ -53,9 +53,9 @@
 //***********************************************************************
 
 enum Status {
-	SUCCESS = 0,     // function succeed
-	MINOR_ERROR = 1, // occur a minor error, show error message
-	FATAL_ERROR = -1 // occur a fatal error, show error message and exit
+    SUCCESS = 0,     // function succeed
+    MINOR_ERROR = 1, // occur a minor error, show error message
+    FATAL_ERROR = -1 // occur a fatal error, show error message and exit
 };
 
 
@@ -80,15 +80,15 @@ enum ChildStatus { FREE = 0, BUSY = 1 };
 
 struct ChildInfo
 {
-	int child_pid;            // child's pid
-	ChildStatus child_status; // status of the child, FREE or BUSY
-	int child_index;          // child's index, representing index in a vector
-	int child_spipe_fd[2];    // the stream pipe between parent and child
-							  // child uses child_spipe_fd[0]
+    int child_pid;            // child's pid
+    ChildStatus child_status; // status of the child, FREE or BUSY
+    int child_index;          // child's index, representing index in a vector
+    int child_spipe_fd[2];    // the stream pipe between parent and child
+                              // child uses child_spipe_fd[0]
 
-	int child_timer_fd;       // timerfd of a child, only effective for 
-							  // children forked when there are too many
-							  // requests
+    int child_timer_fd;       // timerfd of a child, only effective for 
+                              // children forked when there are too many
+                              // requests
 };
 
 
@@ -109,59 +109,59 @@ struct ChildInfo
 class Server
 {
 public:
-	using VectorPos = std::vector<ChildInfo>::size_type;
-	using VectorSize = std::vector<ChildInfo>::size_type;
+    using VectorPos = std::vector<ChildInfo>::size_type;
+    using VectorSize = std::vector<ChildInfo>::size_type;
 
     Server(int maxChildren);
     ~Server();
 
-	// Forbid default copy constructor and assignment operator overload
-	Server(const Server& server) = delete;
-	Server operator=(const Server& server) = delete;
+    // Forbid default copy constructor and assignment operator overload
+    Server(const Server& server) = delete;
+    Server operator=(const Server& server) = delete;
 
     void start();  // Entry point of a server
    
-	Status handleRequestFromClient();
-	Status handleResponseFromChild(int trigger_fd);
-	Status handleChildTimeOut(int trigger_fd);
-	Status serverSigHandler();
-	Status addTimer(int index);
-	Status forkChild(int index);
-	Status updateChild(int index);
+    Status handleRequestFromClient();
+    Status handleResponseFromChild(int trigger_fd);
+    Status handleChildTimeOut(int trigger_fd);
+    Status serverSigHandler();
+    Status addTimer(int index);
+    Status forkChild(int index);
+    Status updateChild(int index);
 private:
-	Status initEpollfd();
-	Status initListenfd();
-	Status initClientfd();
-	Status initSignalfd();
+    Status initEpollfd();
+    Status initListenfd();
+    Status initClientfd();
+    Status initSignalfd();
 
-	void childWork(ChildInfo &child_info);
-	static void childSigHandler(int sig);
+    void childWork(ChildInfo &child_info);
+    static void childSigHandler(int sig);
 
-	void clearAll();
-	void listChildrenAvail();
-	void listChildren();
+    void clearAll();
+    void listChildrenAvail();
+    void listChildren();
 
-	int max_children_;      // max children a server can fork
-	int children_exist_;    // number of children forked
-	int children_free_;     // number of children whose status is FREE
-	int listen_fd_;         // socket fd to listen to load balancer
-	int epoll_fd_;          // epoll fd to monitor other fds
-	int signal_fd_;         // signal fd to receive signals
-	fd_set child_fds_;      // fd set of child spipes
-	fd_set timer_fds_;      // fd set of child timers
-	bool server_stop_;      // decide whether a server should exit or not
-	struct itimerspec ts_;  // time for a timer to alarm
-	static int child_pfd_;  // used for childSigHandler to remove fd
+    int max_children_;      // max children a server can fork
+    int children_exist_;    // number of children forked
+    int children_free_;     // number of children whose status is FREE
+    int listen_fd_;         // socket fd to listen to load balancer
+    int epoll_fd_;          // epoll fd to monitor other fds
+    int signal_fd_;         // signal fd to receive signals
+    fd_set child_fds_;      // fd set of child spipes
+    fd_set timer_fds_;      // fd set of child timers
+    bool server_stop_;      // decide whether a server should exit or not
+    struct itimerspec ts_;  // time for a timer to alarm
+    static int child_pfd_;  // used for childSigHandler to remove fd
     std::vector<ChildInfo> child_pool_; // vector to store children's information
-	
-	static const char *BIND_ADDRESS;
+    
+    static const char *BIND_ADDRESS;
     static const char *PORT_NUM;
     static const int BUF_SIZE = 1024;
     static const int BACKLOG = 50;
     static const int MAX_EVENTS = 10; 
     static const int PREFORKED_CHILDREN = 5;
-	static const int TEMPORARY_CHILD_TIME_OUT = 30;
-	static const int CHILD_EXIT_PROBABILITY = 50;
+    static const int TEMPORARY_CHILD_TIME_OUT = 30;
+    static const int CHILD_EXIT_PROBABILITY = 50;
 };
 
 
