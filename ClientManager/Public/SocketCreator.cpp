@@ -16,8 +16,8 @@
 // to judge whether it is SOCK_DGRAM orSOCK_STREAM.
 //-------------------------------------------------------------------
 int SocketCreator::inetConnect(const char *host,
-							   const char *service, 
-							   int type)
+                               const char *service, 
+                               int type)
 {
     struct addrinfo hints;
     struct addrinfo *result, *rp;
@@ -32,9 +32,9 @@ int SocketCreator::inetConnect(const char *host,
 
     s = getaddrinfo(host, service, &hints, &result);
     if (s != 0) 
-	{
-		ErrorHandler eh("getaddrinfo", __FILE__, __FUNCTION__, __LINE__);
-		eh.errMsg();
+    {
+        ErrorHandler eh("getaddrinfo", __FILE__, __FUNCTION__, __LINE__);
+        eh.errMsg();
         errno = ENOSYS; 
         return -1;
     }
@@ -42,7 +42,7 @@ int SocketCreator::inetConnect(const char *host,
     // Walk through returned list until we find an address structure
     // that can be used to successfully connect a socket 
     for (rp = result; rp != NULL; rp = rp->ai_next) 
-	{
+    {
         sfd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
         if (sfd == -1)
             continue;                   
@@ -64,11 +64,11 @@ int SocketCreator::inetConnect(const char *host,
 // and inetListen().
 //-------------------------------------------------------------------
 int SocketCreator::inetPassiveSocket(const char *host, 
-									 const char *service, 
-									 int type, 
-									 socklen_t *addrlen,
+                                     const char *service, 
+                                     int type, 
+                                     socklen_t *addrlen,
                                      bool do_listen, 
-									 int backlog)
+                                     int backlog)
 {
     struct addrinfo hints;
     struct addrinfo *result, *rp;
@@ -84,27 +84,27 @@ int SocketCreator::inetPassiveSocket(const char *host,
 
     s = getaddrinfo(host, service, &hints, &result);
     if (s != 0) 
-	{
-		ErrorHandler eh("getaddrinfo", __FILE__, __FUNCTION__, __LINE__ - 2);
-		eh.errExit();
+    {
+        ErrorHandler eh("getaddrinfo", __FILE__, __FUNCTION__, __LINE__ - 2);
+        eh.errExit();
     }
 
     // Walk through returned list until we find an address structure
     // that can be used to successfully create and bind a socket 
     optval = 1;
     for (rp = result; rp != NULL; rp = rp->ai_next) 
-	{
+    {
         sfd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
         if (sfd == -1)
             continue;                  
 
-		if (do_listen) 
-		{
+        if (do_listen) 
+        {
             if (setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, &optval,
                     sizeof(optval)) == -1) 
-			{
-				ErrorHandler eh("setsockopt", __FILE__, __FUNCTION__, __LINE__);
-				eh.errMsg();
+            {
+                ErrorHandler eh("setsockopt", __FILE__, __FUNCTION__, __LINE__);
+                eh.errMsg();
                 close(sfd);
                 freeaddrinfo(result);
                 return -1;
@@ -118,12 +118,12 @@ int SocketCreator::inetPassiveSocket(const char *host,
         close(sfd);
     }
 
-	if (rp != NULL && do_listen) 
-	{
+    if (rp != NULL && do_listen) 
+    {
         if (listen(sfd, backlog) == -1) 
-		{
-			ErrorHandler eh("listen", __FILE__, __FUNCTION__, __LINE__);
-			eh.errMsg();
+        {
+            ErrorHandler eh("listen", __FILE__, __FUNCTION__, __LINE__);
+            eh.errMsg();
             freeaddrinfo(result);
             return -1;
         }
@@ -141,41 +141,41 @@ int SocketCreator::inetPassiveSocket(const char *host,
 // Listen to a socket, used in a server.
 //-------------------------------------------------------------------
 int SocketCreator::inetListen(const char *host, 
-							  const char *service, 
-							  int backlog, 
-							  socklen_t *addrlen)
+                              const char *service, 
+                              int backlog, 
+                              socklen_t *addrlen)
 {
     return inetPassiveSocket(host,         // host
-							 service,      // service
-							 SOCK_STREAM,  // type
-							 addrlen,      // addrlen
-							 true,         // do_listen
-							 backlog);     // backlog
+                             service,      // service
+                             SOCK_STREAM,  // type
+                             addrlen,      // addrlen
+                             true,         // do_listen
+                             backlog);     // backlog
 }
 
 //-------------------------------------------------------------------
 // Bind to an IP address and port number, used in a server.
 //-------------------------------------------------------------------
 int SocketCreator::inetBind(const char *host, 
-							const char *service, 
-							int type, 
-							socklen_t *addrlen)
+                            const char *service, 
+                            int type, 
+                            socklen_t *addrlen)
 {
-	return inetPassiveSocket(host,     // host
-							 service,  // service
-							 type,     // type
-							 addrlen,  // addrlen
-							 false,    // do_listen 
-							 0);	   // backlog
+    return inetPassiveSocket(host,     // host
+                             service,  // service
+                             type,     // type
+                             addrlen,  // addrlen
+                             false,    // do_listen 
+                             0);       // backlog
 }
 
 //-------------------------------------------------------------------
 // Show information of a socket.
 //-------------------------------------------------------------------
 char* SocketCreator::inetAddressStr(const struct sockaddr *addr, 
-									socklen_t addrlen,
+                                    socklen_t addrlen,
                                     char *addr_str, 
-									int addr_strlen)
+                                    int addr_strlen)
 {
     char host[NI_MAXHOST], service[NI_MAXSERV];
 
@@ -183,10 +183,10 @@ char* SocketCreator::inetAddressStr(const struct sockaddr *addr,
                     service, NI_MAXSERV, NI_NUMERICSERV) == 0)
         snprintf(addr_str, addr_strlen, "(%s, %s)", host, service);
     else
-		snprintf(addr_str, addr_strlen, "(?UNKNOWN?)");
+        snprintf(addr_str, addr_strlen, "(?UNKNOWN?)");
 
-	addr_str[addr_strlen - 1] = '\0';
-	return addr_str;
+    addr_str[addr_strlen - 1] = '\0';
+    return addr_str;
 }
 
 
@@ -197,10 +197,10 @@ char* SocketCreator::inetAddressStr(const struct sockaddr *addr,
 
 int main(int argc, char *argv[])
 {
-	if (argc < 2){
-		std::cout << "Usage: " << argv[0] << " <port>\n";
-		exit(EXIT_SUCCESS);
-	}
+    if (argc < 2){
+        std::cout << "Usage: " << argv[0] << " <port>\n";
+        exit(EXIT_SUCCESS);
+    }
 
     SocketCreator sc;
     int ret = sc.inetConnect("127.0.0.1", NULL, argv[1], SOCK_STREAM);
@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-	return 0;
+    return 0;
 }
 
 #endif

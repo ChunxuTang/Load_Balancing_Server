@@ -44,15 +44,15 @@
 class ClientManager
 {
 public:
-	ClientManager(int client_count, char *host, char *service);
-	~ClientManager();
-	void start();
-	void childWork();
+    ClientManager(int client_count, char *host, char *service);
+    ~ClientManager();
+    void start();
+    void childWork();
 private:
-	int client_count_;
-	char *host_;
-	char *service_;
-	static const int BUF_SIZE = 1024;
+    int client_count_;
+    char *host_;
+    char *service_;
+    static const int BUF_SIZE = 1024;
 };
 
 #endif

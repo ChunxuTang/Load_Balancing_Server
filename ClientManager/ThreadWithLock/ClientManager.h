@@ -59,7 +59,7 @@ typedef struct ServerInfo
 class ClientManager
 {
 public:
-	ClientManager(int client_count, char *host, char *service);
+    ClientManager(int client_count, char *host, char *service);
     ~ClientManager();
     void start();
 private:
@@ -74,7 +74,7 @@ private:
     static int client_exist_;
     static std::list<int> sock_list_;
     static pthread_mutex_t mtx_;
-	static const int BUF_SIZE = 1024;
+    static const int BUF_SIZE = 1024;
 };
 
 #endif

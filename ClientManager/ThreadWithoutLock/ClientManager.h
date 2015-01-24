@@ -59,7 +59,7 @@ typedef struct serverInfo
 class ClientManager
 {
 public:
-	ClientManager(int client_count, char *host, char *service);
+    ClientManager(int client_count, char *host, char *service);
     ~ClientManager();
     void start();
 private:
@@ -72,7 +72,7 @@ private:
     char *service_;
     
     static int client_exist_;
-	static const int BUF_SIZE = 1024;
+    static const int BUF_SIZE = 1024;
 };
 
 #endif
