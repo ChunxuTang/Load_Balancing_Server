@@ -15,9 +15,9 @@
 // Constructor
 //-------------------------------------------------------------------
 ResponseMessage::ResponseMessage(const std::string& version,
-								 const std::string& status_code)
+                                 const std::string& status_code)
 {
-	start_line_ = version + " " + status_code + " ";
+    start_line_ = version + " " + status_code + " ";
 }
 
 //-------------------------------------------------------------------
@@ -26,13 +26,13 @@ ResponseMessage::ResponseMessage(const std::string& version,
 // between Load Balancer and real server to determine target client.
 //-------------------------------------------------------------------
 ResponseMessage::ResponseMessage(const std::string& version, 
-								 const std::string& status_code,
-								 const std::string& target_ip, 
-								 const std::string& target_port)
+                                 const std::string& status_code,
+                                 const std::string& target_ip, 
+                                 const std::string& target_port)
 {
-	start_line_ = version + " " + status_code + " ";
-	header_ = "Target-IP: " + target_ip + "\r\n" + 
-			  "Target-Port: " + target_port + "\r\n";
+    start_line_ = version + " " + status_code + " ";
+    header_ = "Target-IP: " + target_ip + "\r\n" + 
+              "Target-Port: " + target_port + "\r\n";
 }
 
 //-------------------------------------------------------------------
@@ -41,29 +41,29 @@ ResponseMessage::ResponseMessage(const std::string& version,
 // of all methods.
 //-------------------------------------------------------------------
 ResponseMessage::ResponseMessage(const std::string& version, 
-								 const std::string& status_code,
-								 const std::string& content_type, 
-								 const std::string& content_length,
-								 const std::string& allow_method, 
-								 const std::string& location,
-								 const std::string& target_ip, 
-								 const std::string& target_port)
+                                 const std::string& status_code,
+                                 const std::string& content_type, 
+                                 const std::string& content_length,
+                                 const std::string& allow_method, 
+                                 const std::string& location,
+                                 const std::string& target_ip, 
+                                 const std::string& target_port)
 {
-	start_line_ = version + " " + status_code + " ";
+    start_line_ = version + " " + status_code + " ";
 
-	if (location.size() > 0)
-		header_ += "Location: " + location + "\r\n";
+    if (location.size() > 0)
+        header_ += "Location: " + location + "\r\n";
 
-	if (allow_method.size() > 0)
-		header_ += "Allow: " + allow_method + "\r\n";
+    if (allow_method.size() > 0)
+        header_ += "Allow: " + allow_method + "\r\n";
 
-	if (content_type.size() > 0)
-		addContentType(content_type);
-	if (content_length.size() > 0)
-		addContentLength(content_length);
+    if (content_type.size() > 0)
+        addContentType(content_type);
+    if (content_length.size() > 0)
+        addContentLength(content_length);
 
-	addTargetIP(target_ip);
-	addTargetPort(target_port);
+    addTargetIP(target_ip);
+    addTargetPort(target_port);
 
 }
 
@@ -74,8 +74,8 @@ ResponseMessage::ResponseMessage(const std::string& version,
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addStatusCode(const std::string& status_code)
 {
-	start_line_ += status_code + " ";
-	return *this;
+    start_line_ += status_code + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -84,8 +84,8 @@ HTTPWriter& ResponseMessage::addStatusCode(const std::string& status_code)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addStatus(const std::string& status)
 {
-	start_line_ += status + " ";
-	return *this;
+    start_line_ += status + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -94,8 +94,8 @@ HTTPWriter& ResponseMessage::addStatus(const std::string& status)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addReasonPhrase(const std::string& reason_phrase)
 {
-	start_line_ += reason_phrase + " ";
-	return *this;
+    start_line_ += reason_phrase + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -105,8 +105,8 @@ HTTPWriter& ResponseMessage::addReasonPhrase(const std::string& reason_phrase)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addLocation(const std::string& location)
 {
-	header_ += "Location: " + location + "\r\n";
-	return *this;
+    header_ += "Location: " + location + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -115,8 +115,8 @@ HTTPWriter& ResponseMessage::addLocation(const std::string& location)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addAllow(const std::string& allow_method)
 {
-	header_ += "Allow: " + allow_method + "\r\n";
-	return *this;
+    header_ += "Allow: " + allow_method + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -125,8 +125,8 @@ HTTPWriter& ResponseMessage::addAllow(const std::string& allow_method)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addTargetIP(const std::string& target_ip)
 {
-	header_ += "Target-IP: " + target_ip + "\r\n";
-	return *this;
+    header_ += "Target-IP: " + target_ip + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -135,8 +135,8 @@ HTTPWriter& ResponseMessage::addTargetIP(const std::string& target_ip)
 //-------------------------------------------------------------------
 HTTPWriter& ResponseMessage::addTargetPort(const std::string& target_port)
 {
-	header_ += "Target-Port: " + target_port + "\r\n";
-	return *this;
+    header_ += "Target-Port: " + target_port + "\r\n";
+    return *this;
 }
 
 
@@ -150,15 +150,15 @@ using namespace SuccessStatusCode;
 
 int main(int argc, char *argv[])
 {
-	ResponseMessage rm("HTTP/1.1", HEAD200, "text/plain", "54", "OPTION", "./new.txt", "127.0.0.2", "50000");
-	rm.addBody("I'm a message");
+    ResponseMessage rm("HTTP/1.1", HEAD200, "text/plain", "54", "OPTION", "./new.txt", "127.0.0.2", "50000");
+    rm.addBody("I'm a message");
 
-	HTTPMessage http_msg;
-	rm.constructHTTPMsg(http_msg);
-	rm.showInfo(http_msg);
+    HTTPMessage http_msg;
+    rm.constructHTTPMsg(http_msg);
+    rm.showInfo(http_msg);
 
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }
 
 #endif

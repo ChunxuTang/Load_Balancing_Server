@@ -37,20 +37,20 @@
 class ErrorHandler
 {
 public:
-	ErrorHandler(const char *msg);
-	ErrorHandler(const char *msg, 
-			     const char *file_name, 
-				 const char *func_name, 
-				 int line_num);
-	~ErrorHandler();
-	void errMsg();
-	void errExit();
+    ErrorHandler(const char *msg);
+    ErrorHandler(const char *msg, 
+                 const char *file_name, 
+                 const char *func_name, 
+                 int line_num);
+    ~ErrorHandler();
+    void errMsg();
+    void errExit();
 private:
-	void showMsg();
-	const char *msg_;
-	const char *file_name_;
-	const char *func_name_;
-	int line_num_;
+    void showMsg();
+    const char *msg_;
+    const char *file_name_;
+    const char *func_name_;
+    int line_num_;
 };
 
 

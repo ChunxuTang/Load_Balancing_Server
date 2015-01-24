@@ -17,7 +17,7 @@
 // to appropriate type in selectAlgorithm() function.
 //-------------------------------------------------------------------
 AlgorithmSelector::AlgorithmSelector(SchedAlgorithm sched_type)
-	: sched_type_(sched_type_), sched_algo_(nullptr) 
+    : sched_type_(sched_type_), sched_algo_(nullptr) 
 {}
 
 //-------------------------------------------------------------------
@@ -25,7 +25,7 @@ AlgorithmSelector::AlgorithmSelector(SchedAlgorithm sched_type)
 //-------------------------------------------------------------------
 AlgorithmSelector::~AlgorithmSelector()
 {
-	delete sched_algo_;
+    delete sched_algo_;
 }
 
 //-------------------------------------------------------------------
@@ -35,7 +35,7 @@ AlgorithmSelector::~AlgorithmSelector()
 //-------------------------------------------------------------------
 void AlgorithmSelector::setSchedMap(const SchedMap& sched_map)
 {
-	sched_algo_->setSchedMap(sched_map);
+    sched_algo_->setSchedMap(sched_map);
 }
 
 //-------------------------------------------------------------------
@@ -43,7 +43,7 @@ void AlgorithmSelector::setSchedMap(const SchedMap& sched_map)
 //-------------------------------------------------------------------
 void AlgorithmSelector::setSchedType(const SchedAlgorithm sched_type) 
 { 
-	sched_type_ = sched_type; 
+    sched_type_ = sched_type; 
 }
 
 //-------------------------------------------------------------------
@@ -51,7 +51,7 @@ void AlgorithmSelector::setSchedType(const SchedAlgorithm sched_type)
 //-------------------------------------------------------------------
 const SchedAlgorithm AlgorithmSelector::getSchedType()
 { 
-	return sched_type_; 
+    return sched_type_; 
 }
 
 //-------------------------------------------------------------------
@@ -60,9 +60,9 @@ const SchedAlgorithm AlgorithmSelector::getSchedType()
 //-------------------------------------------------------------------
 void AlgorithmSelector::setHandleIP(const std::string& handle_ip)
 {
-	if (sched_type_ == SchedAlgorithm::Destination_Hashing ||
-		sched_type_ == SchedAlgorithm::Source_Hashing)
-		sched_algo_->setHandleIP(handle_ip);
+    if (sched_type_ == SchedAlgorithm::Destination_Hashing ||
+        sched_type_ == SchedAlgorithm::Source_Hashing)
+        sched_algo_->setHandleIP(handle_ip);
 }
 
 //-------------------------------------------------------------------
@@ -70,7 +70,7 @@ void AlgorithmSelector::setHandleIP(const std::string& handle_ip)
 //-------------------------------------------------------------------
 const AbstractSchedAlgorithms* AlgorithmSelector::getSchedAlgoPtr() 
 {
-	return sched_algo_; 
+    return sched_algo_; 
 }
 
 //-------------------------------------------------------------------
@@ -79,7 +79,7 @@ const AbstractSchedAlgorithms* AlgorithmSelector::getSchedAlgoPtr()
 //-------------------------------------------------------------------
 int AlgorithmSelector::selectServer() 
 { 
-	return sched_algo_->selectServer(); 
+    return sched_algo_->selectServer(); 
 }
 
 //-------------------------------------------------------------------
@@ -87,27 +87,27 @@ int AlgorithmSelector::selectServer()
 //-------------------------------------------------------------------
 void AlgorithmSelector::selectAlgorithm()
 {
-	switch (sched_type_)
-	{
-	case Round_Robin:
-		sched_algo_ = new SchedRR();
-		break;
-	case Weighted_Round_Robin:
-		sched_algo_ = new SchedWRR();
-		break;
-	case Least_Connection:
-		sched_algo_ = new SchedLC();
-		break;
-	case Weighted_Least_Connection:
-		sched_algo_ = new SchedWLC();
-		break;
-	case Destination_Hashing:
-		sched_algo_ = new SchedDH();
-		break;
-	case Source_Hashing:
-		sched_algo_ = new SchedSH();
-		break;
-	default:
-		break;;
-	}
+    switch (sched_type_)
+    {
+    case Round_Robin:
+        sched_algo_ = new SchedRR();
+        break;
+    case Weighted_Round_Robin:
+        sched_algo_ = new SchedWRR();
+        break;
+    case Least_Connection:
+        sched_algo_ = new SchedLC();
+        break;
+    case Weighted_Least_Connection:
+        sched_algo_ = new SchedWLC();
+        break;
+    case Destination_Hashing:
+        sched_algo_ = new SchedDH();
+        break;
+    case Source_Hashing:
+        sched_algo_ = new SchedSH();
+        break;
+    default:
+        break;;
+    }
 }

@@ -20,45 +20,45 @@
 //-------------------------------------------------------------------
 int SchedDH::selectServer()
 {
-	in_addr svaddr;
+    in_addr svaddr;
 
-	// Change destination IP address into a unsigned integer. 
-	// inet_pton() only fits IPv4 address. And the result is
-	// int big-endian format.
-	int ret = inet_pton(AF_INET, dest_ip_.c_str(), &svaddr);
-	if (ret == 0) 
-	{
-		fprintf(stderr, "IP address is not in correct format.\n");
-		return 0;
-	}
-	if (ret == -1) 
-	{
-		ErrorHandler eh("inet_pton", __FILE__, __FUNCTION__, __LINE__ - 6);
-		eh.errMsg();
-		return 0;
-	}
+    // Change destination IP address into a unsigned integer. 
+    // inet_pton() only fits IPv4 address. And the result is
+    // int big-endian format.
+    int ret = inet_pton(AF_INET, dest_ip_.c_str(), &svaddr);
+    if (ret == 0) 
+    {
+        fprintf(stderr, "IP address is not in correct format.\n");
+        return 0;
+    }
+    if (ret == -1) 
+    {
+        ErrorHandler eh("inet_pton", __FILE__, __FUNCTION__, __LINE__ - 6);
+        eh.errMsg();
+        return 0;
+    }
 
-	int selected_server = hashkey(svaddr.s_addr) % sched_map_.size();
+    int selected_server = hashkey(svaddr.s_addr) % sched_map_.size();
 
-	SchedMap::iterator it = sched_map_.begin();
-	std::advance(it, selected_server);
+    SchedMap::iterator it = sched_map_.begin();
+    std::advance(it, selected_server);
 
-	SchedMap::iterator backup = it;
+    SchedMap::iterator backup = it;
 
-	// If the hashed server is not available, use Round-Robin to find
-	// next available server. If all servers are not available,
-	// return -1.
-	while (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY) 
-	{
-		std::advance(it, 1);
-		if (it == sched_map_.end())
-			it = sched_map_.begin();
-		if (it == backup)
-			return -1;
-	}
+    // If the hashed server is not available, use Round-Robin to find
+    // next available server. If all servers are not available,
+    // return -1.
+    while (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY) 
+    {
+        std::advance(it, 1);
+        if (it == sched_map_.end())
+            it = sched_map_.begin();
+        if (it == backup)
+            return -1;
+    }
 
-	DebugCode(std::cout << "selected server: " << it->first << std::endl;)
-	return it->first;
+    DebugCode(std::cout << "selected server: " << it->first << std::endl;)
+    return it->first;
 }
 
 //-------------------------------------------------------------------
@@ -70,6 +70,6 @@ int SchedDH::selectServer()
 //-------------------------------------------------------------------
 unsigned SchedDH::hashkey(unsigned int hashed_ip)
 {
-	DebugCode(std::cout << hashed_ip << std::endl;)
-	return (hashed_ip * 2654435761UL) & HASH_TAB_MASK;
+    DebugCode(std::cout << hashed_ip << std::endl;)
+    return (hashed_ip * 2654435761UL) & HASH_TAB_MASK;
 }

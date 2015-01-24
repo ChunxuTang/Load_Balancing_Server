@@ -41,9 +41,9 @@ template<class KeyType, class ElemType>
 class Cache
 {
 public:
-	virtual ElemType getElement(KeyType key) = 0;
-	virtual void putElement(KeyType key, ElemType element) = 0;
-	virtual bool isCached(KeyType key) = 0;
+    virtual ElemType getElement(KeyType key) = 0;
+    virtual void putElement(KeyType key, ElemType element) = 0;
+    virtual bool isCached(KeyType key) = 0;
 };
 
 
@@ -63,21 +63,21 @@ template <class KeyType, class ElemType>
 class LRUCache : Cache<KeyType, ElemType>
 {
 public:
-	LRUCache(size_t size);
-	~LRUCache();
-	ElemType getElement(KeyType key);
-	void putElement(KeyType key, ElemType element);
-	bool isCached(KeyType key);
-	const std::list<KeyType>& getCacheList();
-	const std::unordered_map<KeyType, ElemType>& getCacheMap();
+    LRUCache(size_t size);
+    ~LRUCache();
+    ElemType getElement(KeyType key);
+    void putElement(KeyType key, ElemType element);
+    bool isCached(KeyType key);
+    const std::list<KeyType>& getCacheList();
+    const std::unordered_map<KeyType, ElemType>& getCacheMap();
 private:
-	void moveToFront(KeyType key);
-	void removeBack();
-	void insertNewElement(KeyType key, ElemType element);
+    void moveToFront(KeyType key);
+    void removeBack();
+    void insertNewElement(KeyType key, ElemType element);
 
-	size_t cache_size_;
-	std::list<KeyType> cache_list_;
-	std::unordered_map<KeyType, ElemType> cache_map_;
+    size_t cache_size_;
+    std::list<KeyType> cache_list_;
+    std::unordered_map<KeyType, ElemType> cache_map_;
 };
 
 //-------------------------------------------------------------------
@@ -101,24 +101,24 @@ LRUCache<KeyType, ElemType>::~LRUCache()
 template <class KeyType, class ElemType>
 void LRUCache<KeyType, ElemType>::putElement(KeyType key, ElemType element)
 {
-	// The element has been cached
-	if (isCached(key)) 
-	{
-		cache_map_.at(key) = element;
-		moveToFront(key);
-	}
-	// The element is not be cached, and there is still some room for
-	// new elements in the cache.
-	else if (cache_map_.size() >= cache_size_) 
-	{
-		insertNewElement(key, element);
-		removeBack();
-	}
-	// The element is not cached, and the cache has been full.
-	else
-	{
-		insertNewElement(key, element);
-	}
+    // The element has been cached
+    if (isCached(key)) 
+    {
+        cache_map_.at(key) = element;
+        moveToFront(key);
+    }
+    // The element is not be cached, and there is still some room for
+    // new elements in the cache.
+    else if (cache_map_.size() >= cache_size_) 
+    {
+        insertNewElement(key, element);
+        removeBack();
+    }
+    // The element is not cached, and the cache has been full.
+    else
+    {
+        insertNewElement(key, element);
+    }
 }
 
 //-------------------------------------------------------------------
@@ -127,9 +127,9 @@ void LRUCache<KeyType, ElemType>::putElement(KeyType key, ElemType element)
 template <class KeyType, class ElemType>
 ElemType LRUCache<KeyType, ElemType>::getElement(KeyType key)
 {
-	moveToFront(key);
+    moveToFront(key);
 
-	return cache_map_[key];
+    return cache_map_[key];
 }
 
 //-------------------------------------------------------------------
@@ -138,9 +138,9 @@ ElemType LRUCache<KeyType, ElemType>::getElement(KeyType key)
 template <class KeyType, class ElemType>
 bool LRUCache<KeyType, ElemType>::isCached(KeyType key)
 {
-	if (cache_map_.find(key) != cache_map_.end())
-		return true;
-	return false;
+    if (cache_map_.find(key) != cache_map_.end())
+        return true;
+    return false;
 }
 
 //-------------------------------------------------------------------
@@ -149,7 +149,7 @@ bool LRUCache<KeyType, ElemType>::isCached(KeyType key)
 template <class KeyType, class ElemType>
 const std::list<KeyType>& LRUCache<KeyType, ElemType>::getCacheList()
 {
-	return cache_list_;
+    return cache_list_;
 }
 
 //-------------------------------------------------------------------
@@ -158,7 +158,7 @@ const std::list<KeyType>& LRUCache<KeyType, ElemType>::getCacheList()
 template <class KeyType, class ElemType>
 const std::unordered_map<KeyType, ElemType>& LRUCache<KeyType, ElemType>::getCacheMap()
 {
-	return cache_map_;
+    return cache_map_;
 }
 
 //-------------------------------------------------------------------
@@ -167,11 +167,11 @@ const std::unordered_map<KeyType, ElemType>& LRUCache<KeyType, ElemType>::getCac
 template <class KeyType, class ElemType>
 void LRUCache<KeyType, ElemType>::moveToFront(KeyType key)
 {
-	if (cache_list_.front() == key)
-		return;
+    if (cache_list_.front() == key)
+        return;
 
-	cache_list_.remove(key);
-	cache_list_.push_front(key);
+    cache_list_.remove(key);
+    cache_list_.push_front(key);
 }
 
 //-------------------------------------------------------------------
@@ -180,9 +180,9 @@ void LRUCache<KeyType, ElemType>::moveToFront(KeyType key)
 template <class KeyType, class ElemType>
 void LRUCache<KeyType, ElemType>::removeBack()
 {
-	cache_map_.erase(cache_list_.back());
-	
-	cache_list_.pop_back();
+    cache_map_.erase(cache_list_.back());
+    
+    cache_list_.pop_back();
 }
 
 //-------------------------------------------------------------------
@@ -191,8 +191,8 @@ void LRUCache<KeyType, ElemType>::removeBack()
 template <class KeyType, class ElemType>
 void LRUCache<KeyType, ElemType>::insertNewElement(KeyType key, ElemType element)
 {
-	cache_list_.push_front(key);
-	cache_map_.insert({ key, element });
+    cache_list_.push_front(key);
+    cache_map_.insert({ key, element });
 }
 
 
@@ -211,17 +211,17 @@ template<class KeyType, class ElemType>
 class FIFOCache : Cache<KeyType, ElemType>
 {
 public:
-	FIFOCache(size_t size);
-	~FIFOCache();
-	ElemType getElement(KeyType key);
-	void putElement(KeyType key, ElemType element);
-	bool isCached(KeyType key);
-	void removeFront();
-	void insertNewElement(KeyType key, ElemType element);
+    FIFOCache(size_t size);
+    ~FIFOCache();
+    ElemType getElement(KeyType key);
+    void putElement(KeyType key, ElemType element);
+    bool isCached(KeyType key);
+    void removeFront();
+    void insertNewElement(KeyType key, ElemType element);
 private:
-	size_t cache_size_;
-	std::list<KeyType> cache_list_;
-	std::unordered_map<KeyType, ElemType> cache_map_;
+    size_t cache_size_;
+    std::list<KeyType> cache_list_;
+    std::unordered_map<KeyType, ElemType> cache_map_;
 };
 
 //-------------------------------------------------------------------
@@ -245,7 +245,7 @@ FIFOCache<KeyType, ElemType>::~FIFOCache()
 template<class KeyType, class ElemType>
 ElemType FIFOCache<KeyType, ElemType>::getElement(KeyType key)
 {
-	return cache_map_[key];
+    return cache_map_[key];
 }
 
 //-------------------------------------------------------------------
@@ -254,20 +254,20 @@ ElemType FIFOCache<KeyType, ElemType>::getElement(KeyType key)
 template<class KeyType, class ElemType>
 void FIFOCache<KeyType, ElemType>::putElement(KeyType key, ElemType element)
 {
-	if (isCached(key))
-	{
-		cache_map_.at(key) = element; // update the element
-		return;
-	}
-	else if (cache_map_.size() < cache_size_)
-	{
-		insertNewElement(key, element);
-	}
-	else
-	{
-		insertNewElement(key, element);
-		removeFront();
-	}
+    if (isCached(key))
+    {
+        cache_map_.at(key) = element; // update the element
+        return;
+    }
+    else if (cache_map_.size() < cache_size_)
+    {
+        insertNewElement(key, element);
+    }
+    else
+    {
+        insertNewElement(key, element);
+        removeFront();
+    }
 }
 
 //-------------------------------------------------------------------
@@ -276,9 +276,9 @@ void FIFOCache<KeyType, ElemType>::putElement(KeyType key, ElemType element)
 template<class KeyType, class ElemType>
 bool FIFOCache<KeyType, ElemType>::isCached(KeyType key)
 {
-	if (cache_map_.find(key) != cache_map_.end())
-		return true;
-	return false;
+    if (cache_map_.find(key) != cache_map_.end())
+        return true;
+    return false;
 }
 
 //-------------------------------------------------------------------
@@ -287,8 +287,8 @@ bool FIFOCache<KeyType, ElemType>::isCached(KeyType key)
 template <class KeyType, class ElemType>
 void FIFOCache<KeyType, ElemType>::removeFront()
 {
-	cache_map_.erase(cache_list_.front());
-	cache_list_.pop_front();
+    cache_map_.erase(cache_list_.front());
+    cache_list_.pop_front();
 }
 
 //-------------------------------------------------------------------
@@ -297,8 +297,8 @@ void FIFOCache<KeyType, ElemType>::removeFront()
 template <class KeyType, class ElemType>
 void FIFOCache<KeyType, ElemType>::insertNewElement(KeyType key, ElemType element)
 {
-	cache_list_.push_back(key);
-	cache_map_.insert({ key, element });
+    cache_list_.push_back(key);
+    cache_map_.insert({ key, element });
 }
 
 #endif

@@ -28,61 +28,61 @@
 //-------------------------------------------------------------------
 int createPidFile(const char *progName, const char *pidFile, int flags)
 {
-	int fd;
-	char buf[BUF_SIZE];
+    int fd;
+    char buf[BUF_SIZE];
 
-	fd = open(pidFile, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-	if (fd == -1)
-	{
-		fprintf(stderr, "Could not open PID file %s", pidFile);
-		return -1;
-	}
+    fd = open(pidFile, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1)
+    {
+        fprintf(stderr, "Could not open PID file %s", pidFile);
+        return -1;
+    }
 
-	if (flags & CPF_CLOEXEC) 
-	{
-		// Set the close-on-exec file descriptor flag 
-		flags = fcntl(fd, F_GETFD);                     // Fetch flags 
-		if (flags == -1)
-		{
-			fprintf(stderr, "Could not get flags for PID file %s", pidFile);
-			return -1;
-		}
+    if (flags & CPF_CLOEXEC) 
+    {
+        // Set the close-on-exec file descriptor flag 
+        flags = fcntl(fd, F_GETFD);                     // Fetch flags 
+        if (flags == -1)
+        {
+            fprintf(stderr, "Could not get flags for PID file %s", pidFile);
+            return -1;
+        }
 
-		flags |= FD_CLOEXEC;                            // Turn on FD_CLOEXEC 
+        flags |= FD_CLOEXEC;                            // Turn on FD_CLOEXEC 
 
-		if (fcntl(fd, F_SETFD, flags) == -1)            // Update flags 
-		{
-			fprintf(stderr, "Could not set flags for PID file %s", pidFile);
-		}
-	}
+        if (fcntl(fd, F_SETFD, flags) == -1)            // Update flags 
+        {
+            fprintf(stderr, "Could not set flags for PID file %s", pidFile);
+        }
+    }
 
-	if (lockRegion(fd, F_WRLCK, SEEK_SET, 0, 0) == -1) 
-	{
-		if (errno == EAGAIN || errno == EACCES)
-		{
-			fprintf(stderr, "PID file '%s' is locked; probably '%s' is already running", pidFile, progName);
-			return -1;
-		}
-		else
-		{
-			fprintf(stderr, "Unable to lock PID file '%s'", pidFile);
-			return -1;
-		}
-	}
+    if (lockRegion(fd, F_WRLCK, SEEK_SET, 0, 0) == -1) 
+    {
+        if (errno == EAGAIN || errno == EACCES)
+        {
+            fprintf(stderr, "PID file '%s' is locked; probably '%s' is already running", pidFile, progName);
+            return -1;
+        }
+        else
+        {
+            fprintf(stderr, "Unable to lock PID file '%s'", pidFile);
+            return -1;
+        }
+    }
 
-	if (ftruncate(fd, 0) == -1)
-	{
-		perror("ftruncate");
-		fprintf(stderr, "Could not truncate PID file '%s'", pidFile);
-		return -1;
-	}
+    if (ftruncate(fd, 0) == -1)
+    {
+        perror("ftruncate");
+        fprintf(stderr, "Could not truncate PID file '%s'", pidFile);
+        return -1;
+    }
 
-	snprintf(buf, BUF_SIZE, "%ld\n", (long)getpid());
-	if (write(fd, buf, strlen(buf)) != strlen(buf))
-	{
-		perror("write");
-		fprintf(stderr, "Writing to PID file '%s'", pidFile);
-	}
+    snprintf(buf, BUF_SIZE, "%ld\n", (long)getpid());
+    if (write(fd, buf, strlen(buf)) != strlen(buf))
+    {
+        perror("write");
+        fprintf(stderr, "Writing to PID file '%s'", pidFile);
+    }
 
-	return fd;
+    return fd;
 }

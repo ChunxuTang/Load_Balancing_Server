@@ -55,40 +55,40 @@
 class ClientManager
 {
 public:
-	typedef std::unordered_map<int, std::function<void(ClientManager*)>> RequestMap;
+    typedef std::unordered_map<int, std::function<void(ClientManager*)>> RequestMap;
 
     ClientManager(int client_count, char *host, char *service);
     ~ClientManager();
-	void start();  // Entry point of ClientManager
+    void start();  // Entry point of ClientManager
 
-	static LRUCache<int, HTTPMessage> *request_cache_;
+    static LRUCache<int, HTTPMessage> *request_cache_;
 private:
-	void initRequestMap();
-	static void sendGetRequest(ClientManager *cm);
-	static void sendHeadRequest(ClientManager *cm);
-	static void sendPutRequest(ClientManager *cm);
-	static void sendPostRequest(ClientManager *cm);
-	static void sendTraceRequest(ClientManager *cm);
-	static void sendOptionsRequest(ClientManager *cm);
-	static void sendDeleteRequest(ClientManager *cm);
+    void initRequestMap();
+    static void sendGetRequest(ClientManager *cm);
+    static void sendHeadRequest(ClientManager *cm);
+    static void sendPutRequest(ClientManager *cm);
+    static void sendPostRequest(ClientManager *cm);
+    static void sendTraceRequest(ClientManager *cm);
+    static void sendOptionsRequest(ClientManager *cm);
+    static void sendDeleteRequest(ClientManager *cm);
     static void handleInterrupt(int sig);
 
-	void createThread(); // create a detached thread
+    void createThread(); // create a detached thread
     static void* createClient(void *arg); // a client main function
-	static void listCache(); // list cache information
+    static void listCache(); // list cache information
 
-	static int client_exist_;         // the number of children hasn't finished
+    static int client_exist_;         // the number of children hasn't finished
     static std::list<int> sock_list_; // list to store client fds
     static pthread_mutex_t mtx_;      // mutex
-	static int cache_hit_count_;       // times of cache hit
+    static int cache_hit_count_;       // times of cache hit
     
     int client_count_;         // the total of clients needed created
     char host_[NI_MAXHOST];    // server's IP address 
     char service_[NI_MAXSERV]; // server's port number
-	std::string port_num_;     // a client's port number
-	RequestMap request_map_;   // request functions hash table
-	HTTPMessage send_msg_;     // HTTP message to be sent
-	
+    std::string port_num_;     // a client's port number
+    RequestMap request_map_;   // request functions hash table
+    HTTPMessage send_msg_;     // HTTP message to be sent
+    
 };
 
 

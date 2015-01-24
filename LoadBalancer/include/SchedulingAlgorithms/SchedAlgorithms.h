@@ -55,10 +55,10 @@
 
 struct RealServer
 {
-	std::string address;
-	std::string port_num;
-	int max_load;
-	int cur_load;
+    std::string address;
+    std::string port_num;
+    int max_load;
+    int cur_load;
 };
 
 
@@ -71,11 +71,11 @@ struct RealServer
 //***********************************************************************
 
 enum SchedAlgorithm { Round_Robin, 
-				      Weighted_Round_Robin, 
-					  Least_Connection, 
-					  Weighted_Least_Connection, 
-					  Destination_Hashing, 
-					  Source_Hashing };
+                      Weighted_Round_Robin, 
+                      Least_Connection, 
+                      Weighted_Least_Connection, 
+                      Destination_Hashing, 
+                      Source_Hashing };
 
 
 //***********************************************************************
@@ -87,22 +87,22 @@ enum SchedAlgorithm { Round_Robin,
 class AbstractSchedAlgorithms
 {
 public:
-	using SchedMap = std::unordered_map<int, RealServer>;
+    using SchedMap = std::unordered_map<int, RealServer>;
 
-	AbstractSchedAlgorithms(){};
-	virtual ~AbstractSchedAlgorithms(){};
-	virtual int selectServer() = 0;
-	virtual void setSchedMap(const SchedMap&) = 0;
-	virtual void setHandleIP(const std::string&){}
+    AbstractSchedAlgorithms(){};
+    virtual ~AbstractSchedAlgorithms(){};
+    virtual int selectServer() = 0;
+    virtual void setSchedMap(const SchedMap&) = 0;
+    virtual void setHandleIP(const std::string&){}
 protected:
-	// Reserved capacity of a server to avoid over load.
-	static const int RESERVED_CAPACITY = 1;
+    // Reserved capacity of a server to avoid over load.
+    static const int RESERVED_CAPACITY = 1;
 
-	// These are the hash constants used in Destination Hashing
-	// and Source Hashing algorithms.
-	static const int HASH_TAB_BITS = 12;
-	static const int HASH_TAB_SIZE = 1 << HASH_TAB_BITS;
-	static const int HASH_TAB_MASK = HASH_TAB_SIZE - 1;
+    // These are the hash constants used in Destination Hashing
+    // and Source Hashing algorithms.
+    static const int HASH_TAB_BITS = 12;
+    static const int HASH_TAB_SIZE = 1 << HASH_TAB_BITS;
+    static const int HASH_TAB_MASK = HASH_TAB_SIZE - 1;
 };
 
 
@@ -117,13 +117,13 @@ protected:
 class SchedRR : public AbstractSchedAlgorithms
 {
 public:
-	SchedRR(){};
-	SchedRR(SchedMap& sched_map)
-		: sched_map_(sched_map){}
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
-	int selectServer();
+    SchedRR(){};
+    SchedRR(SchedMap& sched_map)
+        : sched_map_(sched_map){}
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    int selectServer();
 private:
-	SchedMap sched_map_;
+    SchedMap sched_map_;
 };
 
 
@@ -140,14 +140,14 @@ private:
 class SchedWRR : public AbstractSchedAlgorithms
 {
 public:
-	SchedWRR(){}
-	SchedWRR(SchedMap& sched_map)
-		: sched_map_(sched_map){}
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
-	int selectServer();
-	
+    SchedWRR(){}
+    SchedWRR(SchedMap& sched_map)
+        : sched_map_(sched_map){}
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    int selectServer();
+    
 private:
-	SchedMap sched_map_;
+    SchedMap sched_map_;
 };
 
 
@@ -163,13 +163,13 @@ private:
 class SchedLC : public AbstractSchedAlgorithms
 {
 public:
-	SchedLC(){}
-	SchedLC(SchedMap& sched_map)
-		: sched_map_(sched_map){}
-	int selectServer();
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    SchedLC(){}
+    SchedLC(SchedMap& sched_map)
+        : sched_map_(sched_map){}
+    int selectServer();
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
 private:
-	SchedMap sched_map_;
+    SchedMap sched_map_;
 };
 
 
@@ -186,13 +186,13 @@ private:
 class SchedWLC : public AbstractSchedAlgorithms
 {
 public:
-	SchedWLC(){}
-	SchedWLC(SchedMap& sched_map)
-		: sched_map_(sched_map){}
-	int selectServer();
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    SchedWLC(){}
+    SchedWLC(SchedMap& sched_map)
+        : sched_map_(sched_map){}
+    int selectServer();
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
 private:
-	SchedMap sched_map_;
+    SchedMap sched_map_;
 };
 
 
@@ -210,16 +210,16 @@ private:
 class SchedDH : public AbstractSchedAlgorithms
 {
 public:
-	SchedDH(){}
-	SchedDH(SchedMap& sched_map, std::string dest_ip)
-		: sched_map_(sched_map), dest_ip_(dest_ip) {}
-	int selectServer();
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
-	void setHandleIP(const std::string& dest_ip) { dest_ip_ = dest_ip; }
+    SchedDH(){}
+    SchedDH(SchedMap& sched_map, std::string dest_ip)
+        : sched_map_(sched_map), dest_ip_(dest_ip) {}
+    int selectServer();
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    void setHandleIP(const std::string& dest_ip) { dest_ip_ = dest_ip; }
 private:
-	unsigned hashkey(unsigned int hashed_ip);
-	SchedMap sched_map_;
-	std::string dest_ip_;
+    unsigned hashkey(unsigned int hashed_ip);
+    SchedMap sched_map_;
+    std::string dest_ip_;
 };
 
 
@@ -234,16 +234,16 @@ private:
 class SchedSH : public AbstractSchedAlgorithms
 {
 public:
-	SchedSH(){}
-	SchedSH(SchedMap& sched_map, std::string source_ip)
-		: sched_map_(sched_map), source_ip_(source_ip) {}
-	int selectServer();
-	void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
-	void setHandleIP(const std::string& source_ip) { source_ip_ = source_ip; }
+    SchedSH(){}
+    SchedSH(SchedMap& sched_map, std::string source_ip)
+        : sched_map_(sched_map), source_ip_(source_ip) {}
+    int selectServer();
+    void setSchedMap(const SchedMap& sched_map) { sched_map_ = sched_map; }
+    void setHandleIP(const std::string& source_ip) { source_ip_ = source_ip; }
 private:
-	unsigned hashkey(unsigned int hashed_ip);
-	SchedMap sched_map_;
-	std::string source_ip_;
+    unsigned hashkey(unsigned int hashed_ip);
+    SchedMap sched_map_;
+    std::string source_ip_;
 };
 
 
@@ -259,26 +259,26 @@ private:
 class AlgorithmSelector
 {
 public:
-	using SchedMap = std::unordered_map<int, RealServer>;
+    using SchedMap = std::unordered_map<int, RealServer>;
 
-	AlgorithmSelector(SchedAlgorithm sched_type);
-	~AlgorithmSelector();
+    AlgorithmSelector(SchedAlgorithm sched_type);
+    ~AlgorithmSelector();
 
-	// Select scheduling algorithm, needed be invoked first
-	void selectAlgorithm();
+    // Select scheduling algorithm, needed be invoked first
+    void selectAlgorithm();
 
-	// set and get functions
-	void setSchedMap(const SchedMap& sched_map);
-	void setSchedType(const SchedAlgorithm sched_type);
-	const SchedAlgorithm getSchedType();
-	void setHandleIP(const std::string& handle_ip);
-	const AbstractSchedAlgorithms* getSchedAlgoPtr();
+    // set and get functions
+    void setSchedMap(const SchedMap& sched_map);
+    void setSchedType(const SchedAlgorithm sched_type);
+    const SchedAlgorithm getSchedType();
+    void setHandleIP(const std::string& handle_ip);
+    const AbstractSchedAlgorithms* getSchedAlgoPtr();
 
-	// Invoke a scheduling algorithm's selectServer() function
-	int selectServer();
+    // Invoke a scheduling algorithm's selectServer() function
+    int selectServer();
 private:
-	SchedAlgorithm sched_type_;
-	AbstractSchedAlgorithms *sched_algo_;
+    SchedAlgorithm sched_type_;
+    AbstractSchedAlgorithms *sched_algo_;
 };
 
 

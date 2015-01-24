@@ -16,9 +16,9 @@
 // copy constructor
 //-------------------------------------------------------------------
 HTTPWriter::HTTPWriter(const HTTPWriter& http_writer)
-	: start_line_(http_writer.start_line_), 
-	  header_(http_writer.header_), 
-	  body_(http_writer.body_)
+    : start_line_(http_writer.start_line_), 
+      header_(http_writer.header_), 
+      body_(http_writer.body_)
 {}
 
 //-------------------------------------------------------------------
@@ -26,11 +26,11 @@ HTTPWriter::HTTPWriter(const HTTPWriter& http_writer)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::operator=(const HTTPWriter& http_writer)
 {
-	start_line_ = http_writer.start_line_;
-	header_ = http_writer.header_;
-	body_ = http_writer.body_;
+    start_line_ = http_writer.start_line_;
+    header_ = http_writer.header_;
+    body_ = http_writer.body_;
 
-	return *this;
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -38,8 +38,8 @@ HTTPWriter& HTTPWriter::operator=(const HTTPWriter& http_writer)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addStartLine(const std::string& start_line)
 {
-	start_line_ += start_line;
-	return *this;
+    start_line_ += start_line;
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -47,8 +47,8 @@ HTTPWriter& HTTPWriter::addStartLine(const std::string& start_line)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addHeader(const std::string& header)
 {
-	header_ += header;
-	return *this;
+    header_ += header;
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -56,8 +56,8 @@ HTTPWriter& HTTPWriter::addHeader(const std::string& header)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addBody(const std::string& body)
 {
-	body_ += body;
-	return *this;
+    body_ += body;
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -65,7 +65,7 @@ HTTPWriter& HTTPWriter::addBody(const std::string& body)
 //-------------------------------------------------------------------
 std::string HTTPWriter::getStartLine() const
 {
-	return start_line_;
+    return start_line_;
 }
 
 //-------------------------------------------------------------------
@@ -73,7 +73,7 @@ std::string HTTPWriter::getStartLine() const
 //-------------------------------------------------------------------
 std::string HTTPWriter::getHeader() const
 {
-	return header_;
+    return header_;
 }
 
 //-------------------------------------------------------------------
@@ -81,7 +81,7 @@ std::string HTTPWriter::getHeader() const
 //-------------------------------------------------------------------
 std::string HTTPWriter::getBody() const
 {
-	return body_;
+    return body_;
 }
 
 //-------------------------------------------------------------------
@@ -90,8 +90,8 @@ std::string HTTPWriter::getBody() const
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addVersion(const std::string& version)
 {
-	start_line_ += version + " ";
-	return *this;
+    start_line_ += version + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -100,8 +100,8 @@ HTTPWriter& HTTPWriter::addVersion(const std::string& version)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addContentType(const std::string& content_type)
 {
-	header_ += "Content-Type: " + content_type + "\r\n";
-	return *this;
+    header_ += "Content-Type: " + content_type + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -110,8 +110,8 @@ HTTPWriter& HTTPWriter::addContentType(const std::string& content_type)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::addContentLength(const std::string& content_length)
 {
-	header_ += "Content-Length: " + content_length + "\r\n";
-	return *this;
+    header_ += "Content-Length: " + content_length + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -119,23 +119,23 @@ HTTPWriter& HTTPWriter::addContentLength(const std::string& content_length)
 //-------------------------------------------------------------------
 void HTTPWriter::constructHTTPMsg(HTTPMessage &http_msg)
 {
-	// Before transforming, clear content in HTTP message
-	// to avoid '\0' error.
-	memset(&http_msg, '\0', sizeof(HTTPMessage)); 
+    // Before transforming, clear content in HTTP message
+    // to avoid '\0' error.
+    memset(&http_msg, '\0', sizeof(HTTPMessage)); 
 
-	start_line_ += "\r\n";
-	header_ += "\r\n";
+    start_line_ += "\r\n";
+    header_ += "\r\n";
 
-	// If there is no content in body, body is not necessary, 
-	// HTTP message should end with header and "\r\n".
-	if (body_.length() > 0) 
-		body_ += "\r\n";
-	
-	// In Visual Studio 2013, sprintf() cannot pass compilation.
+    // If there is no content in body, body is not necessary, 
+    // HTTP message should end with header and "\r\n".
+    if (body_.length() > 0) 
+        body_ += "\r\n";
+    
+    // In Visual Studio 2013, sprintf() cannot pass compilation.
 #ifdef WINDOWS
-	sprintf_s(http_msg.http_msg, "%s%s%s", start_line_.c_str(), header_.c_str(), body_.c_str());
+    sprintf_s(http_msg.http_msg, "%s%s%s", start_line_.c_str(), header_.c_str(), body_.c_str());
 #else
-	sprintf(http_msg.http_msg, "%s%s%s", start_line_.c_str(), header_.c_str(), body_.c_str());
+    sprintf(http_msg.http_msg, "%s%s%s", start_line_.c_str(), header_.c_str(), body_.c_str());
 #endif
 }
 
@@ -144,12 +144,12 @@ void HTTPWriter::constructHTTPMsg(HTTPMessage &http_msg)
 //-------------------------------------------------------------------
 void HTTPWriter::constructString(std::string &msg)
 {
-	start_line_ += "\r\n";
-	header_ += "\r\n";
-	if (body_.length() > 0) 
-		body_ += "\r\n";
-	
-	msg = start_line_ + header_ + body_;
+    start_line_ += "\r\n";
+    header_ += "\r\n";
+    if (body_.length() > 0) 
+        body_ += "\r\n";
+    
+    msg = start_line_ + header_ + body_;
 }
 
 //-------------------------------------------------------------------
@@ -157,10 +157,10 @@ void HTTPWriter::constructString(std::string &msg)
 //-------------------------------------------------------------------
 HTTPWriter& HTTPWriter::clear()
 {
-	start_line_ = "";
-	header_ = "";
-	body_ = "";
-	return *this;
+    start_line_ = "";
+    header_ = "";
+    body_ = "";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -168,7 +168,7 @@ HTTPWriter& HTTPWriter::clear()
 //-------------------------------------------------------------------
 void HTTPWriter::showInfo(const HTTPMessage& http_msg)
 {
-	cout << http_msg.http_msg << std::endl;;
+    cout << http_msg.http_msg << std::endl;;
 }
 
 
@@ -179,17 +179,17 @@ void HTTPWriter::showInfo(const HTTPMessage& http_msg)
 
 int main(int argc, char *argv[])
 {
-	HTTPWriter writer;
-	writer.addStartLine("HTTP/1.1 200 OK\r\n");
-	writer.addHeader("Content-Type: text/plain\r\n\r\n");
-	writer.addBody("message\r\n");
+    HTTPWriter writer;
+    writer.addStartLine("HTTP/1.1 200 OK\r\n");
+    writer.addHeader("Content-Type: text/plain\r\n\r\n");
+    writer.addBody("message\r\n");
 
-	HTTPMessage msg;
-	writer.constructHTTPMsg(msg);
-	writer.showInfo(msg);
+    HTTPMessage msg;
+    writer.constructHTTPMsg(msg);
+    writer.showInfo(msg);
 
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }
 
 #endif

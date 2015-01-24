@@ -18,31 +18,31 @@
 //-------------------------------------------------------------------
 int SchedLC::selectServer()
 {
-	SchedMap::iterator it = sched_map_.begin();
-	int handle_fd = it->first;
+    SchedMap::iterator it = sched_map_.begin();
+    int handle_fd = it->first;
 
-	for (; it != sched_map_.end(); it++) 
-	{
-		// First select a server who has enough capacity to 
-		// handle a request. If there's not one available,
-		// the for loop will be terminated, and return -1.
-		if (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY)
-			continue;
+    for (; it != sched_map_.end(); it++) 
+    {
+        // First select a server who has enough capacity to 
+        // handle a request. If there's not one available,
+        // the for loop will be terminated, and return -1.
+        if (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY)
+            continue;
 
-		SchedMap::iterator it2 = it;
-		it2++;
+        SchedMap::iterator it2 = it;
+        it2++;
 
-		// Traverse the left servers to find whether there is
-		// one server's connection is less than this one.
-		for (; it2 != sched_map_.end(); it2++) 
-		{
-			if (it->second.cur_load > it2->second.cur_load)
-				it = it2;
-		}
+        // Traverse the left servers to find whether there is
+        // one server's connection is less than this one.
+        for (; it2 != sched_map_.end(); it2++) 
+        {
+            if (it->second.cur_load > it2->second.cur_load)
+                it = it2;
+        }
 
-		DebugCode(std::cout << "selected server: " << it->first << std::endl;)
-		return it->first;
-	}
+        DebugCode(std::cout << "selected server: " << it->first << std::endl;)
+        return it->first;
+    }
 
-	return -1;
+    return -1;
 }

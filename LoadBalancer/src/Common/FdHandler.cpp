@@ -16,21 +16,21 @@
 //-------------------------------------------------------------------
 int setNonBlocking(int fd)
 {
-	int old_option;
-	if ((old_option = fcntl(fd, F_GETFL)) == -1)
-	{
-		perror("fcntl - F_GETFL");
-		exit(EXIT_FAILURE);
-	}
+    int old_option;
+    if ((old_option = fcntl(fd, F_GETFL)) == -1)
+    {
+        perror("fcntl - F_GETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	int new_option = old_option | O_NONBLOCK;
-	if (fcntl(fd, F_SETFL, new_option) == -1)
-	{
-		perror("fcntl - F_SETFL");
-		exit(EXIT_FAILURE);
-	}
+    int new_option = old_option | O_NONBLOCK;
+    if (fcntl(fd, F_SETFL, new_option) == -1)
+    {
+        perror("fcntl - F_SETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	return old_option;
+    return old_option;
 }
 
 //-------------------------------------------------------------------
@@ -38,21 +38,21 @@ int setNonBlocking(int fd)
 //-------------------------------------------------------------------
 int disableNonBlocking(int fd)
 {
-	int old_option;
-	if ((old_option = fcntl(fd, F_GETFL)) == -1)
-	{
-		perror("fcntl - F_GETFL");
-		exit(EXIT_FAILURE);
-	}
+    int old_option;
+    if ((old_option = fcntl(fd, F_GETFL)) == -1)
+    {
+        perror("fcntl - F_GETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	int new_option = old_option & ~O_NONBLOCK;
-	if (fcntl(fd, F_SETFL, new_option) == -1)
-	{
-		perror("fcntl - F_SETFL");
-		exit(EXIT_FAILURE);
-	}
+    int new_option = old_option & ~O_NONBLOCK;
+    if (fcntl(fd, F_SETFL, new_option) == -1)
+    {
+        perror("fcntl - F_SETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	return old_option;
+    return old_option;
 }
 
 //-------------------------------------------------------------------
@@ -61,21 +61,21 @@ int disableNonBlocking(int fd)
 //-------------------------------------------------------------------
 int setCloseOnExec(int fd)
 {
-	int old_option;
-	if ((old_option = fcntl(fd, F_GETFL)) == -1)
-	{
-		perror("fcntl - F_GETFL");
-		exit(EXIT_FAILURE);
-	}
+    int old_option;
+    if ((old_option = fcntl(fd, F_GETFL)) == -1)
+    {
+        perror("fcntl - F_GETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	int new_option = old_option | FD_CLOEXEC;
-	if (fcntl(fd, F_SETFL, new_option) == -1)
-	{
-		perror("fcntl - F_SETFL");
-		exit(EXIT_FAILURE);
-	}
+    int new_option = old_option | FD_CLOEXEC;
+    if (fcntl(fd, F_SETFL, new_option) == -1)
+    {
+        perror("fcntl - F_SETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	return old_option;
+    return old_option;
 }
 
 //-------------------------------------------------------------------
@@ -83,21 +83,21 @@ int setCloseOnExec(int fd)
 //-------------------------------------------------------------------
 int disableCloseOnExec(int fd)
 {
-	int old_option;
-	if ((old_option = fcntl(fd, F_GETFL)) == -1)
-	{
-		perror("fcntl - F_GETFL");
-		exit(EXIT_FAILURE);
-	}
+    int old_option;
+    if ((old_option = fcntl(fd, F_GETFL)) == -1)
+    {
+        perror("fcntl - F_GETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	int new_option = old_option & ~FD_CLOEXEC;
-	if (fcntl(fd, F_SETFL, new_option) == -1)
-	{
-		perror("fcntl - F_SETFL");
-		exit(EXIT_FAILURE);
-	}
+    int new_option = old_option & ~FD_CLOEXEC;
+    if (fcntl(fd, F_SETFL, new_option) == -1)
+    {
+        perror("fcntl - F_SETFL");
+        exit(EXIT_FAILURE);
+    }
 
-	return old_option;
+    return old_option;
 }
 
 //-------------------------------------------------------------------
@@ -105,21 +105,21 @@ int disableCloseOnExec(int fd)
 //-------------------------------------------------------------------
 void addEvent(int epollfd, int fd, OneShotType oneshot_type, BlockType block_type)
 {
-	struct epoll_event ev;
-	ev.data.fd = fd;
-	ev.events = EPOLLIN; // Level triggered
+    struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN; // Level triggered
 
-	if (oneshot_type == ONESHOT)
-		ev.events |= EPOLLONESHOT;
+    if (oneshot_type == ONESHOT)
+        ev.events |= EPOLLONESHOT;
 
-	if (epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev) == -1)
-	{
-		perror("epoll_ctl - EPOLL_CTL_ADD");
-		exit(EXIT_FAILURE);
-	}
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev) == -1)
+    {
+        perror("epoll_ctl - EPOLL_CTL_ADD");
+        exit(EXIT_FAILURE);
+    }
 
-	if (block_type == NON_BLOCK)
-		setNonBlocking(fd);
+    if (block_type == NON_BLOCK)
+        setNonBlocking(fd);
 }
 
 //-------------------------------------------------------------------
@@ -127,9 +127,9 @@ void addEvent(int epollfd, int fd, OneShotType oneshot_type, BlockType block_typ
 //-------------------------------------------------------------------
 void deleteEvent(int epollfd, int fd)
 {
-	struct epoll_event ev;
-	if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev) == -1)
-		perror("epoll_ctl - EPOLL_CTL_DEL");
+    struct epoll_event ev;
+    if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev) == -1)
+        perror("epoll_ctl - EPOLL_CTL_DEL");
 }
 
 //-------------------------------------------------------------------
@@ -138,15 +138,15 @@ void deleteEvent(int epollfd, int fd)
 //-------------------------------------------------------------------
 void setOneshot(int epollfd, int fd)
 {
-	struct epoll_event ev;
-	ev.data.fd = fd;
-	ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
+    struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 
-	if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev) == -1)
-	{
-		perror("epoll_ctl - EPOLL_CTL_MOD");
-		exit(EXIT_FAILURE);
-	}
+    if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev) == -1)
+    {
+        perror("epoll_ctl - EPOLL_CTL_MOD");
+        exit(EXIT_FAILURE);
+    }
 }
 
 //-------------------------------------------------------------------
@@ -154,13 +154,13 @@ void setOneshot(int epollfd, int fd)
 //-------------------------------------------------------------------
 void disableOneShot(int epollfd, int fd)
 {
-	struct epoll_event ev;
-	ev.data.fd = fd;
-	ev.events = EPOLLIN | EPOLLET;
+    struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN | EPOLLET;
 
-	if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev) == -1)
-	{
-		perror("epoll_ctl - EPOLL_CTL_MOD");
-		exit(EXIT_FAILURE);
-	}
+    if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev) == -1)
+    {
+        perror("epoll_ctl - EPOLL_CTL_MOD");
+        exit(EXIT_FAILURE);
+    }
 }

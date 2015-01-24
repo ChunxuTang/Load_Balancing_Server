@@ -63,36 +63,36 @@
 class HTTPWriter
 {
 public:
-	HTTPWriter(){}
-	virtual ~HTTPWriter(){}
+    HTTPWriter(){}
+    virtual ~HTTPWriter(){}
 
-	HTTPWriter(const HTTPWriter& http_writer);
-	HTTPWriter& operator=(const HTTPWriter& http_writer);
+    HTTPWriter(const HTTPWriter& http_writer);
+    HTTPWriter& operator=(const HTTPWriter& http_writer);
 
-	// operations of start line, header and body
-	HTTPWriter& addStartLine(const std::string& start_line);
-	HTTPWriter& addHeader(const std::string& header);
-	HTTPWriter& addBody(const std::string& body);
-	std::string getStartLine() const;
-	std::string getHeader() const;
-	std::string getBody() const;
-	
-	// add information of start line
-	HTTPWriter& addVersion(const std::string& version);
+    // operations of start line, header and body
+    HTTPWriter& addStartLine(const std::string& start_line);
+    HTTPWriter& addHeader(const std::string& header);
+    HTTPWriter& addBody(const std::string& body);
+    std::string getStartLine() const;
+    std::string getHeader() const;
+    std::string getBody() const;
+    
+    // add information of start line
+    HTTPWriter& addVersion(const std::string& version);
 
-	// add entity headers
-	HTTPWriter& addContentType(const std::string& content_type);
-	HTTPWriter& addContentLength(const std::string& content_length);
+    // add entity headers
+    HTTPWriter& addContentType(const std::string& content_type);
+    HTTPWriter& addContentLength(const std::string& content_length);
 
-	void constructHTTPMsg(HTTPMessage &http_msg);
-	void constructString(std::string &msg);
+    void constructHTTPMsg(HTTPMessage &http_msg);
+    void constructString(std::string &msg);
 
-	HTTPWriter& clear();
-	void showInfo(const HTTPMessage& http_msg);
+    HTTPWriter& clear();
+    void showInfo(const HTTPMessage& http_msg);
 protected:
-	std::string start_line_;
-	std::string header_;
-	std::string body_;
+    std::string start_line_;
+    std::string header_;
+    std::string body_;
 };
 
 
@@ -118,35 +118,35 @@ protected:
 class ResponseMessage : public HTTPWriter
 {
 public:
-	// Three kinds of constructors, which are used in different applications.
-	// target_ip and target_port are specifically used between Load Balancer
-	// and Real Servers to decide target client.
-	ResponseMessage(const std::string& version, 
-					const std::string& status_code);
-	ResponseMessage(const std::string& version, 
-					const std::string& status_code,
-					const std::string& target_ip, 
-					const std::string& target_port);
-	ResponseMessage(const std::string& version, 
-					const std::string& status_code, 
-					const std::string& content_type, 
-					const std::string& content_length, 
-					const std::string& allow_method, 
-					const std::string& location, 
-					const std::string& target_ip,
-					const std::string& target_port);
-	~ResponseMessage(){}
+    // Three kinds of constructors, which are used in different applications.
+    // target_ip and target_port are specifically used between Load Balancer
+    // and Real Servers to decide target client.
+    ResponseMessage(const std::string& version, 
+                    const std::string& status_code);
+    ResponseMessage(const std::string& version, 
+                    const std::string& status_code,
+                    const std::string& target_ip, 
+                    const std::string& target_port);
+    ResponseMessage(const std::string& version, 
+                    const std::string& status_code, 
+                    const std::string& content_type, 
+                    const std::string& content_length, 
+                    const std::string& allow_method, 
+                    const std::string& location, 
+                    const std::string& target_ip,
+                    const std::string& target_port);
+    ~ResponseMessage(){}
 
-	// add response start line information
-	HTTPWriter& addStatusCode(const std::string& status_code);
-	HTTPWriter& addStatus(const std::string& status);
-	HTTPWriter& addReasonPhrase(const std::string& reason_phrase);
+    // add response start line information
+    HTTPWriter& addStatusCode(const std::string& status_code);
+    HTTPWriter& addStatus(const std::string& status);
+    HTTPWriter& addReasonPhrase(const std::string& reason_phrase);
 
-	// add response headers
-	HTTPWriter& addLocation(const std::string& location);
-	HTTPWriter& addAllow(const std::string& allow_method);
-	HTTPWriter& addTargetIP(const std::string& target_ip);
-	HTTPWriter& addTargetPort(const std::string& target_port);
+    // add response headers
+    HTTPWriter& addLocation(const std::string& location);
+    HTTPWriter& addAllow(const std::string& allow_method);
+    HTTPWriter& addTargetIP(const std::string& target_ip);
+    HTTPWriter& addTargetPort(const std::string& target_port);
 };
 
 
@@ -169,16 +169,16 @@ public:
 class RequestMessage : public HTTPWriter
 {
 public:
-	RequestMessage(){}
-	~RequestMessage(){}
-	HTTPWriter& addMethod(const std::string& method);
-	HTTPWriter& addRequestURL(const std::string& url);
+    RequestMessage(){}
+    ~RequestMessage(){}
+    HTTPWriter& addMethod(const std::string& method);
+    HTTPWriter& addRequestURL(const std::string& url);
 
-	// source_ip and source_port are used in Summer Project 2014. 
-	// A client sends these information to make Load Balancer acquire
-	// the target of a response message.
-	HTTPWriter& addSourceIP(const std::string& source_ip);
-	HTTPWriter& addSourcePort(const std::string source_port);
+    // source_ip and source_port are used in Summer Project 2014. 
+    // A client sends these information to make Load Balancer acquire
+    // the target of a response message.
+    HTTPWriter& addSourceIP(const std::string& source_ip);
+    HTTPWriter& addSourcePort(const std::string source_port);
 };
 
 
@@ -199,16 +199,16 @@ public:
 class ErrorMessage : public HTTPWriter
 {
 public:
-	ErrorMessage(const std::string& version,
-				 const std::string& status_code,
-				 const std::string& target_ip,
-				 const std::string& target_port)
-	{
-		start_line_ = version + " " + status_code + " ";
-		header_ = "Target-IP: " + target_ip + "\r\n" + 
-			      "Target-Port: " + target_port + "\r\n";
-		addContentLength("0");
-	}
+    ErrorMessage(const std::string& version,
+                 const std::string& status_code,
+                 const std::string& target_ip,
+                 const std::string& target_port)
+    {
+        start_line_ = version + " " + status_code + " ";
+        header_ = "Target-IP: " + target_ip + "\r\n" + 
+                  "Target-Port: " + target_port + "\r\n";
+        addContentLength("0");
+    }
 
 };
 
@@ -235,19 +235,19 @@ public:
 class GetMethodWriter : public HTTPWriter
 {
 public:
-	GetMethodWriter(const std::string& url, 
-				    const std::string& version, 
-		            const std::string& hostname, 
-					const std::string& accept_format,
-					const std::string& source_ip, 
-					const std::string& source_port)
-	{
-		start_line_ = "GET " + url + " " + version + " ";
-		header_ = "Host: " + hostname + "\r\n" + 
-				  "Accept: " + accept_format + "\r\n" +
-				  "Source-IP: " + source_ip + "\r\n" + 
-				  "Source-Port: " + source_port + "\r\n";
-	}
+    GetMethodWriter(const std::string& url, 
+                    const std::string& version, 
+                    const std::string& hostname, 
+                    const std::string& accept_format,
+                    const std::string& source_ip, 
+                    const std::string& source_port)
+    {
+        start_line_ = "GET " + url + " " + version + " ";
+        header_ = "Host: " + hostname + "\r\n" + 
+                  "Accept: " + accept_format + "\r\n" +
+                  "Source-IP: " + source_ip + "\r\n" + 
+                  "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -271,19 +271,19 @@ public:
 class HeadMethodWriter : public HTTPWriter
 {
 public:
-	HeadMethodWriter(const std::string& url, 
-					 const std::string& version, 
-		             const std::string& hostname, 
-					 const std::string& accept_format,
-					 const std::string& source_ip, 
-					 const std::string& source_port)
-	{
-		start_line_ = "HEAD " + url + " " + version + " ";
-		header_ = "Host: " + hostname + "\r\n" + 
-				  "Accept: " + accept_format + "\r\n" + 
-				  "Source-IP: " + source_ip + "\r\n" + 
-				  "Source-Port: " + source_port + "\r\n";
-	}
+    HeadMethodWriter(const std::string& url, 
+                     const std::string& version, 
+                     const std::string& hostname, 
+                     const std::string& accept_format,
+                     const std::string& source_ip, 
+                     const std::string& source_port)
+    {
+        start_line_ = "HEAD " + url + " " + version + " ";
+        header_ = "Host: " + hostname + "\r\n" + 
+                  "Accept: " + accept_format + "\r\n" + 
+                  "Source-IP: " + source_ip + "\r\n" + 
+                  "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -310,21 +310,21 @@ public:
 class PutMethodWriter: public HTTPWriter
 {
 public:
-	PutMethodWriter(const std::string& url, 
-				    const std::string& version, 
-		            const std::string& hostname, 
-					const std::string& content_type,
-					const std::string& content_length, 
-					const std::string& source_ip, 
-					const std::string& source_port)
-	{
-		start_line_ += "PUT " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n";
-		header_ += "Content-Type: " + content_type + "\r\n";
-		header_ += "Content-Length: " + content_length + "\r\n";
-		header_ += "Source-IP: " + source_ip + "\r\n";
-		header_ += "Source-Port: " + source_port + "\r\n";
-	}
+    PutMethodWriter(const std::string& url, 
+                    const std::string& version, 
+                    const std::string& hostname, 
+                    const std::string& content_type,
+                    const std::string& content_length, 
+                    const std::string& source_ip, 
+                    const std::string& source_port)
+    {
+        start_line_ += "PUT " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n";
+        header_ += "Content-Type: " + content_type + "\r\n";
+        header_ += "Content-Length: " + content_length + "\r\n";
+        header_ += "Source-IP: " + source_ip + "\r\n";
+        header_ += "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -350,21 +350,21 @@ public:
 class PostMethodWriter : public HTTPWriter
 {
 public:
-	PostMethodWriter(const std::string& url, 
-					 const std::string& version, 
-		             const std::string& hostname, 
-					 const std::string& content_type, 
-					 const std::string& content_length, 
-					 const std::string& source_ip, 
-					 const std::string& source_port)
-	{
-		start_line_ += "POST " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n";
-		header_ += "Content-Type: " + content_type + "\r\n";
-		header_ += "Content-Length: " + content_length + "\r\n";
-		header_ += "Source-IP: " + source_ip + "\r\n";
-		header_ += "Source-Port: " + source_port + "\r\n";
-	}
+    PostMethodWriter(const std::string& url, 
+                     const std::string& version, 
+                     const std::string& hostname, 
+                     const std::string& content_type, 
+                     const std::string& content_length, 
+                     const std::string& source_ip, 
+                     const std::string& source_port)
+    {
+        start_line_ += "POST " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n";
+        header_ += "Content-Type: " + content_type + "\r\n";
+        header_ += "Content-Length: " + content_length + "\r\n";
+        header_ += "Source-IP: " + source_ip + "\r\n";
+        header_ += "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -388,19 +388,19 @@ public:
 class TraceMethodWriter : public HTTPWriter
 {
 public:
-	TraceMethodWriter(const std::string& url, 
-				      const std::string& version, 
-		              const std::string& hostname, 
-					  const std::string& accept_format,
-					  const std::string& source_ip, 
-					  const std::string& source_port)
-	{
-		start_line_ += "TRACE " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n";
-		header_ += "Accept: " + accept_format + "\r\n";
-		header_ += "Source-IP: " + source_ip + "\r\n";
-		header_ += "Source-Port: " + source_port + "\r\n";
-	}
+    TraceMethodWriter(const std::string& url, 
+                      const std::string& version, 
+                      const std::string& hostname, 
+                      const std::string& accept_format,
+                      const std::string& source_ip, 
+                      const std::string& source_port)
+    {
+        start_line_ += "TRACE " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n";
+        header_ += "Accept: " + accept_format + "\r\n";
+        header_ += "Source-IP: " + source_ip + "\r\n";
+        header_ += "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -423,19 +423,19 @@ public:
 class OptionsMethodWriter : public HTTPWriter
 {
 public:
-	OptionsMethodWriter(const std::string& url, 
-						const std::string& version, 
-			            const std::string& hostname, 
-						const std::string& accept_format,
-					    const std::string& source_ip,
-						const std::string& source_port)
-	{
-		start_line_ += "OPTIONS " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n";
-		header_ += "Accept: " + accept_format + "\r\n";
-		header_ += "Source-IP: " + source_ip + "\r\n";
-		header_ += "Source-Port: " + source_port + "\r\n";
-	}
+    OptionsMethodWriter(const std::string& url, 
+                        const std::string& version, 
+                        const std::string& hostname, 
+                        const std::string& accept_format,
+                        const std::string& source_ip,
+                        const std::string& source_port)
+    {
+        start_line_ += "OPTIONS " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n";
+        header_ += "Accept: " + accept_format + "\r\n";
+        header_ += "Source-IP: " + source_ip + "\r\n";
+        header_ += "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -457,17 +457,17 @@ public:
 class DeleteMethodWriter : public HTTPWriter
 {
 public:
-	DeleteMethodWriter(const std::string& url, 
-					   const std::string& version, 
-					   const std::string& hostname, 
-					   const std::string& source_ip, 
-					   const std::string& source_port)
-	{
-		start_line_ += "DELETE " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n" + 
-				   "Source-IP: " + source_ip + "\r\n" + 
-				   "Source-Port: " + source_port + "\r\n";
-	}
+    DeleteMethodWriter(const std::string& url, 
+                       const std::string& version, 
+                       const std::string& hostname, 
+                       const std::string& source_ip, 
+                       const std::string& source_port)
+    {
+        start_line_ += "DELETE " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n" + 
+                   "Source-IP: " + source_ip + "\r\n" + 
+                   "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 
@@ -490,17 +490,17 @@ public:
 class ServerCheckMethodWriter : public HTTPWriter
 {
 public:
-	ServerCheckMethodWriter(const std::string& url, 
-							const std::string& version,
-							const std::string& hostname, 
-							const std::string& source_ip,
-							const std::string& source_port)
-	{
-		start_line_ += "SERVERCHECK " + url + " " + version + " ";
-		header_ += "Host: " + hostname + "\r\n" +
-				   "Source-IP: " + source_ip + "\r\n" + 
-				   "Source-Port: " + source_port + "\r\n";
-	}
+    ServerCheckMethodWriter(const std::string& url, 
+                            const std::string& version,
+                            const std::string& hostname, 
+                            const std::string& source_ip,
+                            const std::string& source_port)
+    {
+        start_line_ += "SERVERCHECK " + url + " " + version + " ";
+        header_ += "Host: " + hostname + "\r\n" +
+                   "Source-IP: " + source_ip + "\r\n" + 
+                   "Source-Port: " + source_port + "\r\n";
+    }
 };
 
 

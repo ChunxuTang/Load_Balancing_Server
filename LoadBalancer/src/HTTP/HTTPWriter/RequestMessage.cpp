@@ -18,8 +18,8 @@
 //-------------------------------------------------------------------
 HTTPWriter& RequestMessage::addMethod(const std::string& method)
 {
-	start_line_ += method + " ";
-	return *this;
+    start_line_ += method + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -29,8 +29,8 @@ HTTPWriter& RequestMessage::addMethod(const std::string& method)
 //-------------------------------------------------------------------
 HTTPWriter& RequestMessage::addRequestURL(const std::string& url)
 {
-	start_line_ += url + " ";
-	return *this;
+    start_line_ += url + " ";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -39,8 +39,8 @@ HTTPWriter& RequestMessage::addRequestURL(const std::string& url)
 //-------------------------------------------------------------------
 HTTPWriter& RequestMessage::addSourceIP(const std::string& source_ip)
 {
-	header_ += "Source-IP: " + source_ip + "\r\n";
-	return *this;
+    header_ += "Source-IP: " + source_ip + "\r\n";
+    return *this;
 }
 
 //-------------------------------------------------------------------
@@ -49,6 +49,6 @@ HTTPWriter& RequestMessage::addSourceIP(const std::string& source_ip)
 //-------------------------------------------------------------------
 HTTPWriter& RequestMessage::addSourcePort(const std::string source_port)
 {
-	header_ += "Source-Port: " + source_port + "\r\n";
-	return *this;
+    header_ += "Source-Port: " + source_port + "\r\n";
+    return *this;
 }

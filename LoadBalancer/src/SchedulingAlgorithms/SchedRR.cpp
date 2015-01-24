@@ -19,26 +19,26 @@
 //-------------------------------------------------------------------
 int SchedRR::selectServer()
 {
-	static int count = 1;
-	int offset = count % sched_map_.size();
-	SchedMap::iterator it = sched_map_.begin();
-	std::advance(it, offset);
-	SchedMap::iterator backup = it;
-	count++;
+    static int count = 1;
+    int offset = count % sched_map_.size();
+    SchedMap::iterator it = sched_map_.begin();
+    std::advance(it, offset);
+    SchedMap::iterator backup = it;
+    count++;
 
-	// The loop terminate condition is that iterator it equals to
-	// backup iterator, which means all the servers have been 
-	// traversed and there's no server available.
-	while (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY) 
-	{
-		offset = count % sched_map_.size();
-		it = sched_map_.begin();
-		std::advance(it, offset);
-		if (it == backup)
-			return -1;
-		count++;
-	}
+    // The loop terminate condition is that iterator it equals to
+    // backup iterator, which means all the servers have been 
+    // traversed and there's no server available.
+    while (it->second.cur_load >= it->second.max_load - RESERVED_CAPACITY) 
+    {
+        offset = count % sched_map_.size();
+        it = sched_map_.begin();
+        std::advance(it, offset);
+        if (it == backup)
+            return -1;
+        count++;
+    }
 
-	DebugCode(std::cout << "selected server: " << it->first << std::endl;)
-	return it->first;
+    DebugCode(std::cout << "selected server: " << it->first << std::endl;)
+    return it->first;
 }
